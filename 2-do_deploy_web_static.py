@@ -1,49 +1,52 @@
 #!/usr/bin/python3
-""" Writing a script that will compress a fab file """
+"""Fabric function"""
 
 from fabric.api import local, env, put, run
 from datetime import datetime
 import os.path
 
-env.hosts = ['35.231.119.75', '34.207.111.89']
+env.hosts = ['3.90.35.112', '3.94.146.3']
 
 
 def do_deploy(archive_path):
-    """ Deploying to web-server """
+    """ Deploy an archive """
 
     if not os.path.exists(archive_path):
         return False
-
     try:
-        arName = archive_path[9:]
-        archiveNameWithoutExtension = arName[:-4]
-        put(archive_path, '/tmp/' + arName)
+        archiveName = archive_path[9:]
+        archiveNameWithoutExtension = archiveName[:-4]
+
+        put(archive_path, '/tmp/' + archiveName)
         run("mkdir -p /data/web_static/releases/" +
             archiveNameWithoutExtension)
-        run('tar -xzvf /tmp/' + arName +
-            " -C /data/web_static/releases/" +
-            archiveNameWithoutExtension + " --strip-components=1")
-        run("rm -rf /tmp/" + arName)
-        run("rm -rf /data/web_static/current")
+        run("tar -xzvf /tmp/" +
+            archiveName +
+            " -C " +
+            "/data/web_static/releases/" +
+            archiveNameWithoutExtension +
+            " --strip-components=1")
+        run("rm -f /tmp/" + archiveName)
+        run("rm -f /data/web_static/current")
         run("sudo ln -sf /data/web_static/releases/" +
             archiveNameWithoutExtension + " /data/web_static/current")
 
         return True
-    except:
+    except BaseException:
         return False
 
 
 def do_pack():
-    """ Pack up web """
+    """ pack up our web_static"""
+
     try:
         now = datetime.now()
-        arName = "web_static_" + now.strftime("%Y%m%d%H%M%S") + ".tgz"
-        arPath = "versions/" + arName
+        tarArchiveName = "web_static_" + now.strftime("%Y%m%d%H%M%S") + ".tgz"
+        tarArchivePath = "versions/" + tarArchiveName
 
         local("mkdir -p versions")
-        local("tar -czvf " + arPath + " web_static")
+        local("tar -czvf " + tarArchivePath + " web_static")
 
-        return arPath
-
-    except:
+        return tarArchivePath
+    except BaseException:
         return None
