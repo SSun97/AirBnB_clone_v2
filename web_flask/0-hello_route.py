@@ -1,1 +1,1 @@
-""" The first task hello world! """
+""" The first task hello world """
