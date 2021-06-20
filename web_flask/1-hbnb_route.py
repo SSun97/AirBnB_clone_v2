@@ -1,5 +1,5 @@
-#!/usr/bin/python3
-"""the first flask page"""
+  #!/usr/bin/python3
+"""first flask hello world"""
 
 from flask import Flask
 app = Flask(__name__)
@@ -7,12 +7,13 @@ app = Flask(__name__)
 
 @app.route('/', strict_slashes=False)
 def index():
-    """most basic index page """
+    """basic index page """
     return "Hello HBNB!"
 
-@app.route('/', strict_slashes=False)
+
+@app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    """ add extra page /hbnb"""
+    """extra page /hbnb"""
     return "HBNB"
 
 if __name__ == '__main__':
