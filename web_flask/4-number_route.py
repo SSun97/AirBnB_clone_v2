@@ -30,6 +30,7 @@ def python(text):
     """create page /python/text """
     return "Python {}".format(text.replace("_", " "))
 
+
 @app.route('/number/<int:n>',strict_slashes=False)
 def number(n):
     """create page /number """
