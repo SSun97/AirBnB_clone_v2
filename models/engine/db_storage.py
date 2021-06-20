@@ -21,7 +21,8 @@ class DBStorage():
         db = getenv('HBNB_MYSQL_DB')
         # dialect+driver://username:password@host:port/database
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'.
-                                      format(user, passwd, host, db), pool_pre_ping=True)
+                                      format(user, passwd, host, db),
+                                      pool_pre_ping=True)
 
     def all(self, cls=None):
         """query all the rows with given classes"""
@@ -62,7 +63,8 @@ class DBStorage():
             Base.metadata.drop_all()
         Base.metadata.create_all(self.__engine)
         # missing code here
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         session1 = scoped_session(session_factory)
         self.__session = session1()
 
